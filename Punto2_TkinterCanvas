@@ -1,0 +1,50 @@
+import tkinter as tk
+import numpy as np
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+from tkinter import filedialog
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+# Crear ventana
+mainWindow = tk.Tk()
+mainWindow.geometry("400x400")
+
+# Crear lienzo de canvas
+canvas = tk.Canvas(mainWindow, width=300, height=300)
+canvas.pack()
+
+# Crear gráfico con Matplotlib
+
+fig = Figure(figsize=(5, 4), dpi=90)
+ax = fig.add_subplot(111)
+
+x = np.array([1, 2,0, -2, 3, 4, 5])
+y = np.array([1, 2,-3, 4, 6, 8, 10])
+
+
+
+ax.plot(x, y)
+print(x)
+print(y)
+
+
+# Agregar gráfico al lienzo de canvas
+canvas_matplotlib = FigureCanvasTkAgg(fig, master=canvas)
+canvas_matplotlib.draw()
+canvas_matplotlib.get_tk_widget().pack()
+
+#Agregar direccion guardar
+def save_figure():
+    # Pídele al usuario que seleccione un archivo
+    file_path = filedialog.asksaveasfilename(defaultextension=".png")
+
+    # Guarda la figura de Matplotlib en el archivo seleccionado
+    if file_path:
+        fig.savefig(file_path)
+
+# Crea un botón que llame a la función save_figure cuando se haga clic en él
+save_button = tk.Button(mainWindow, text="Guardar", command=save_figure)
+save_button.pack()
+
+# Mostrar ventana
+tk.mainloop()
